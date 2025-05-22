@@ -84,3 +84,21 @@ exports.createProduct = async (req, res) => {
     }
     
 }
+
+//Consulta de productos GET api/products
+exports.getProducts = async (req, res) => {
+    try {
+        const products = await Product.find()
+        .populate('category', 'name')
+        .populate('subcategory', 'name')
+        .sort({createAt: -1});
+
+        res.status(200).json({
+            success: true,
+            count: products.length,
+            data: products
+        })
+    } catch(error){
+        
+    }
+}
