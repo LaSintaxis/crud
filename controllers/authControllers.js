@@ -219,7 +219,7 @@ exports.getAllUserById = async (req, res) => {
             { userId: new ObjectId(id) }
         ).toArray();
 
-        const rolesIds = userRoles.map(ur => ur.roleId);
+        const roleIds = userRoles.map(ur => ur.roleId);
         const roles = await db.collection('roles').find(
             { _id: { $in: roleIds } }
         ).toArray();
@@ -303,31 +303,64 @@ exports.updateUser = async (req, res) => {
             allowedFields.push('role');
         }
 
-        const filteredUpdates = {
-            Object.keys(updates).forEach(key => {
-                if (allowedFields.includes(key)) {
-                    filteredUpdates[key] = updates[key];
-                }
-            })
-
-            //si se actualiza password, hacer hash
-            if(updates.password){
-                filteredUpdates.password = bcrypt.hashSync(updates.password, 9)
+        const filteredUpdates = {}
+        Object.keys(updates).forEach(key => {
+            if (allowedFields.includes(key)) {
+                filteredUpdates[key] = updates[key];
             }
+        })
 
-    }
+        //si se actualiza password, hacer hash
+        if (updates.password) {
+            filteredUpdates.password = bcrypt.hashSync(updates.password, 8)
+        }
+
         const updatedUser = await User.findByIdAndUpdate(id, filteredUpdates, { new: true }).select('-password-__v');
 
-    return res.status(200).json({
-        success: true,
-        message: 'usuario actualizado'
+        return res.status(200).json({
+            success: true,
+            message: 'usuario actualizado',
             data: updatedUser
-    })
-} catch (error) {
-    console.error('Error en updateUser', error)
-    return res.status(500).json({
-        success: false,
-        message: 'error al actualizar usuario'
-    })
+        })
+
+    } catch (error) {
+        console.error('Error en updateUser', error)
+        return res.status(500).json({
+            success: false,
+            message: 'error al actualizar usuario'
+        })
+    }
 }
+
+// 6. eliminar usuario (solo admin)
+exports.deleteUser = async (req, res) => {
+    try {
+        // verificar quw sea admin 
+        if(!checkPermission(req.userRole, [ROLES.ADMIN])) {
+            return res.status(400).json({
+                success:false,
+                message: 'solo administradores pueden eliminar usuarios'
+            })
+        }
+
+        const deletedUser = await User.findByIdAndDelete(req.params.id)
+
+        if (!deletedUser){
+            return res.status(404).json({
+                success: false,
+                message: 'usuario no encontrado'
+            })
+        }
+
+        return res.status(200).json({
+            success:true,
+            messsage: 'usuario eliminado correctamente'
+        })
+    } catch (error) {
+        console.error('error en deleteUser', error)
+        return res.status(500).json({
+            success: false,
+            message: 'error al eliminar usuario'
+        })
+    }
 }
