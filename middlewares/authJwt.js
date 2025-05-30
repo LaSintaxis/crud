@@ -53,3 +53,15 @@ const AuthJWT = (req, res, next) => {
         })
     }
 }
+
+//Validacion antes de exportar 
+if ( typeof verifyTokenFn !== 'function') {
+    console.error('[AuthJWT] Error: verifyTokenFn no es una funcion')
+    throw new Error('verifyTokenFn debe ser una funcion ')
+}
+
+console.log('[AuthJWT] Middleware verifyTokenFn es una funcion: ',typeof verifyTokenFn);
+
+module.exports = {
+    verifyToken: verifyTokenFn
+}
