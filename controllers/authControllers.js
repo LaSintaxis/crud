@@ -28,7 +28,7 @@ exports.signup = async (req, res) => {
         const savedUser = await user.save();
 
         const token = jwt.sign({ id: savedUser._id }, config.secret, {
-
+            expiresIn: config.jwtExpiration
         })
 
         res.status(200).json({
@@ -53,7 +53,7 @@ exports.signin = async (req, res) => {
 
         //1. Validacion de campos requeridos 
         if ((!req.body.username && !req.body.email) || !req.body.password) {
-            console.log('[AuthController] campos faltantes', {
+            console.log('[AuthController] campos faltantes:', {
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password ? '***' : 'NO PROVISTO'
@@ -89,13 +89,13 @@ exports.signin = async (req, res) => {
             })
         }
 
-        //Verificar contrase;a con validacion adicional
-        console.log('[AuthController] Comparando contrase;as.....')
+        //Verificar contraseña con validacion adicional
+        console.log('[AuthController] Comparando contraseñas.....')
         if (!req.body.password || typeof req.body.password !== 'string') {
-            console.log('[AuthController] contrase;a no valida en request');
+            console.log('[AuthController] contraseña no valida en request');
             return res.status(400).json({
                 success: false,
-                message: 'Formato de contrase;a invalido'
+                message: 'Formato de contraseña invalido'
             })
         }
 
@@ -105,7 +105,7 @@ exports.signin = async (req, res) => {
         )
 
         if (!passwordIsValid) {
-            console.log('[AuthController] Contras;a incorrecta')
+            console.log('[AuthController] Contraseña incorrecta')
             return res.status(401).json({
                 success: false,
                 message: 'Credenciales invalidas'
@@ -167,7 +167,7 @@ exports.getAllUsers = async (req, res) => {
 
 //4. obtener usuario por id (admin y coordinador)
 exports.getAllUserById = async (req, res) => {
-    console.log('/n=== INICIO DE CONSULTA POR ID')
+    console.log('\n=== INICIO DE CONSULTA POR ID')
 
     try {
         //1. validacion de extrema del ID
@@ -175,7 +175,7 @@ exports.getAllUserById = async (req, res) => {
         console.log('[1] ID recibido: ', id);
 
         if (!id || typeof id !== 'string' || id.length !== 24) {
-            console.log(['[error] ID invalido'])
+            console.log('[ERROR] ID invalido')
             return res.status(400).json({
                 success: false,
                 message: 'ID de usuario no valido'
@@ -215,7 +215,7 @@ exports.getAllUserById = async (req, res) => {
 
         //3.2 buscar roles en dos pasos
         console.log('[5] buscando roles...');
-        const userRoles = await db.collection(user_roles).find(
+        const userRoles = await db.collection('user_roles').find(
             { userId: new ObjectId(id) }
         ).toArray();
 
@@ -270,7 +270,7 @@ exports.updateUser = async (req, res) => {
     try {
         const { id } = req.params;
         const updates = req.body;
-        const currentUserRole = req.user.Role;
+        const currentUserRole = req.userRole;
         const currentUserId = req.userId;
 
         // buscar usuario a actualizar 
@@ -336,16 +336,16 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
     try {
         // verificar quw sea admin 
-        if(!checkPermission(req.userRole, [ROLES.ADMIN])) {
+        if (!checkPermission(req.userRole, [ROLES.ADMIN])) {
             return res.status(400).json({
-                success:false,
+                success: false,
                 message: 'solo administradores pueden eliminar usuarios'
             })
         }
 
         const deletedUser = await User.findByIdAndDelete(req.params.id)
 
-        if (!deletedUser){
+        if (!deletedUser) {
             return res.status(404).json({
                 success: false,
                 message: 'usuario no encontrado'
@@ -353,7 +353,7 @@ exports.deleteUser = async (req, res) => {
         }
 
         return res.status(200).json({
-            success:true,
+            success: true,
             messsage: 'usuario eliminado correctamente'
         })
     } catch (error) {

@@ -1,6 +1,5 @@
 const Product = require('../models/Product')
 const Category = require('../models/category')
-const subcategory = require('../models/Subcategory');
 const Subcategory = require('../models/Subcategory');
 
 exports.createProduct = async (req, res) => {
@@ -108,7 +107,7 @@ exports.getProducts = async (req, res) => {
 }
 
 
-exports.getProductsById = async (res, req) => {
+exports.getProductById = async (res, req) => {
     try {
         const product = await Product.findById(req.params.id)
             .populate('category', 'name description')
@@ -129,7 +128,7 @@ exports.getProductsById = async (res, req) => {
         console.error('error en getProductById', error);
         res.status(500).json({
             success: false,
-            message: 'Errpr al obtener el producto'
+            message: 'Error al obtener el producto'
         });
     };
 };
@@ -139,7 +138,7 @@ exports.updateProduct = async (req, res) => {
         const { name, description, price, stock, category, subcategory } = req.body;
         const updateData = {};
 
-        //Validar y preparar datos para act
+        //Validar y preparar datos para actualizacion
         if (name) updateData.name = name;
         if (description) updateData.description = description;
         if (price) updateData.price = price;
@@ -199,9 +198,11 @@ exports.updateProduct = async (req, res) => {
                 data: updatedProduct
             });
     } catch (error) {
-        console.error('Error en updatedProduct')
-
-
+        console.error('Error en updatedProduct', error)
+        res.status(500).json({
+            success:false,
+            message: 'Error al actualizar el producto'
+        })
     }
 }
 
@@ -224,7 +225,7 @@ exports.deleteProduct = async (req, res) => {
         console.error('Error en deleteProduct: ',error);
         res.status(500).json({
             success:false,
-            message:'Error al eliminat el producto'
+            message:'Error al eliminar el producto'
         })
     }
 }

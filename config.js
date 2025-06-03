@@ -13,4 +13,9 @@ module.exports = {
     },
 
     //3. roles del sistema (deben coincidir con tu implementacion)
+    ROLES: {
+        ADMIN: 'admin',
+        COORDINADOR: 'coordinador',
+        AUXILIAR: 'auxiliar'
+    }
 }

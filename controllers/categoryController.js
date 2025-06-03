@@ -11,6 +11,7 @@ exports.createCategory = async (req, res) => {
         message: 'El nombre es obligatorio y debe ser valido'
       })
     }
+
     if (!description || typeof description !== 'string' || !description.trim()) {
       return res.status(400).json({
         success: false,
@@ -68,7 +69,7 @@ exports.getCategories = async (req, res) => {
       data: categories
     })
   } catch (error) {
-    console.error('Error en getCategories; ', error);
+    console.error('Error en getCategories: ', error);
     res.status(500).json({
       success: false,
       message: 'Error al obtener categorias'
@@ -140,8 +141,9 @@ exports.updateCategory = async (req, res) => {
       message: 'Categoria actualizada',
       data: updateCategory
     });
+
   } catch(error) {
-    console.error('Error en updateCategory; ', error);
+    console.error('Error en updateCategory: ', error);
     res.status(500).json({
       success: false,
       message: 'Error al actualizar categoria'
@@ -151,22 +153,25 @@ exports.updateCategory = async (req, res) => {
 
 exports.deleteCategory = async (req, res) => {
   try {
-    const deleteCategory = await Category. findByIdAndDelete(req.params.id);
+    const deleteCategory = await Category.findByIdAndDelete(req.params.id);
+
     if (!deleteCategory) {
       return res.status(404).json({
         success: false,
         message: 'Categoria no encontrada'
       });
     }
+
     res.status(200).json({
       success: true,
       message: 'Categoria eliminada'
     });
+    
   } catch(error) {
-    console.error('Error en deleteCategory; ',error);
+    console.error('Error en deleteCategory: ',error);
     res.status(500).json({
       success: false,
-      message: 'Error al elimicar categoria'
+      message: 'Error al eliminar categoria'
     });
   }
 }
