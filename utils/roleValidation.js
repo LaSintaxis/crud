@@ -4,6 +4,6 @@ function validatePermissions(userRole, allowedRoles) {
         error.status = 403;
         throw error;
     }
-}
+};
 
 module.exports = {validatePermissions}

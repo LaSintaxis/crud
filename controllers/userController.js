@@ -43,7 +43,7 @@ exports.getUserById = async (res,req) => {
         if (req.user.role === 'coordinador' && user.role === 'admin'){
             return res.status(403).json({
                 success:false,
-                message: 'no puedes ver usuarios admin'
+                message: 'NOO puedes ver usuarios admin'
             })
         }
 
@@ -63,7 +63,7 @@ exports.getUserById = async (res,req) => {
 //crear usuario (Admin y coordinador)
 exports.createUser = async (req, res) => {
     try{
-        const {username, email, password, role} = req.body;
+        const { username, email, password, role } = req.body;
 
         const user =new User({
             username,
@@ -116,17 +116,19 @@ exports.updateUser = async (req, res) => {
     } catch (error){
         res.status(500).json({
             success:false,
-            message: 'Error al actualizar usuario'
+            message: 'Error al actualizar usuario',
+            error: error.message
         })
     }
 }
 
 // Eliminar usuario (solo Admin)
-
 exports.deleteUser = async (res, req) => {
     console.log('[CONTROLLER] Ejecutando deleteUser para ID: ',req.params.id) //diagnostico
+    
     try{
         const deletedUser = await User.findByIdAndDelete(req.params.id);
+
         if(!deletedUser){
             console.log('[CONTROLLER] Usuario no encontrado para eliminar') //diagnostico
             return res.status(404).json({

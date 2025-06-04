@@ -4,12 +4,12 @@ const userController = require('../controllers/userController')
 const { verifyToken } = require('../middlewares/authJwt')
 const { checkRole } = require('../middlewares/role')
 
-//
+//middlewares de diagnostico para todas las rutas
 router.use((req, res, next) => {
     console.log('\n=== DIAGNOSTICO DE RUTA ===');
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
     console.log('Headers: ', {
-        'authorization: ': req.headers.authorization ? '***' + req.headers.authorization.slice(8) : null,
+        'authorization: ': req.headers.authorization ? '***' + req.headers.authorization.slice(-8) : null,
         'x-access-token': req.headers['x-access-token'] ? '***' + req.headers['x-access-token'].slice(-8) : null,
         'user-agent': req.headers['user-agent']
     })

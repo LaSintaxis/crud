@@ -1,6 +1,4 @@
-const { default: mongoose } = require('mongoose');
 const mongoose = require('mongoose');
-const nodemon = require('nodemon');
 
 const categorySchema = new mongoose.Schema({
   name:{
@@ -26,7 +24,7 @@ categorySchema.pre('save', async function (next) {
     const indice = await collection.indexes();
 
     //Buscar y eliminar indice problematico con nombre "nombre_1"
-    const problematicIndex = indexes.find(indexes.name === 'nombre_1');
+    const problematicIndex = indexes.find(index => index.name === 'nombre_1');
     if (problematicIndex) {
       await collection.dropIndex('nombre_1');
     }
@@ -45,4 +43,4 @@ categorySchema.index({name:1}, {
   name: 'name_1' //Nombre explicito para el indice 
 });
 
-module.exports = mongoose.model('Category', categorySchema);
+module.exports = mongoose.model('category', categorySchema);

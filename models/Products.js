@@ -47,6 +47,6 @@ productSchema.post('save', function(error, doc, next){
     }else{
         next(error)
     }
-})
+});
 
 module.exports = mongoose.model('product', productSchema)

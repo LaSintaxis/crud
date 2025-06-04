@@ -1,4 +1,4 @@
-const express = require(express);
+const express = require('express');
 const router = express.Router()
 const productController = require('../controllers/productControllers');
 const {check} = require('express-validator')
@@ -12,8 +12,8 @@ const validateProduct = [
     check('subcategory').not().isEmpty().withMessage('La subcategoria es requerida'),
 ]
 router.post('/', validateProduct, productController.createProduct)
-router.get('/', productController/productController.getProducts)
-router.get('/:id',productController.getProductsById)
+router.get('/', productController.getProducts)
+router.get('/:id',productController.getProductById)
 router.put('/:id', validateProduct, productController.updateProduct)
 router.delete('/:id', productController.deleteProduct)
 

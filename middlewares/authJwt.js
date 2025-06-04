@@ -21,8 +21,8 @@ const verifyTokenFn = (req, res, next) => {
         }
 
         const decoded = jwt.verify(token, config.secret);
-        req.user.Id = decoded.id;
-        req.user.Role = decoded.role;
+        req.userId = decoded.id;
+        req.userRole = decoded.role;
         console.log('[AuthJWT] token valido para: ', decoded.email)
         next();
     } catch (error) {
@@ -30,10 +30,10 @@ const verifyTokenFn = (req, res, next) => {
         return res.status(401).json({
             success: false,
             message: 'Token invalido',
-            error: error.naem
-        })
-    }
-}
+            error: error.name
+        });
+    };
+};
 
 const AuthJWT = (req, res, next) => {
     const token = req.headers.autorization?.split(' ')[1];

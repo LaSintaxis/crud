@@ -1,6 +1,6 @@
 const User = require('./User')
 const Product = require('./Products')
-const Category = require('./Category')
+const Category = require('./category')
 const Subcategory = require('./Subcategory')
 
 module.exports = {

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const  authController = require('../controllers/authControllers')
-const {verifySignUp} = require('../middlewares/verifySignUp')
+const {verifySignUp} = require('../middlewares')
 
 //importacion de verificacion 
 let verifyToken;
@@ -50,4 +50,4 @@ console.log('[AuthRoutes] Rutas configuradas:',router.stack.map(layer => {
     }
 }))
 
-module.exports = router
+module.exports = router;

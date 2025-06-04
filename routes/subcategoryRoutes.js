@@ -14,7 +14,7 @@ const validateSubcategory = [
 router.post('/', validateSubcategory, subcategoryController.createSubcategory)
 router.get('/', subcategoryController.getSubcategories);
 router.get('/:id', subcategoryController.getSubcategoryById)
-router.put('/:id', validateSubcategory, subcategoryController.updateSubcategory )
+router.put('/:id', validateSubcategory, subcategoryController.updateSubcategory)
 router.delete('/:id', subcategoryController.deleteSubcategory)
 
 module.exports = router;
