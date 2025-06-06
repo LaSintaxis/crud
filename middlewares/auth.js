@@ -13,13 +13,13 @@ exports.authenticate = async (res, req, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.id)
+        const user = await User.findById(decoded.id);
 
         if (!user) {
             return res.status(401).json({
                 success: false,
                 message: 'usuario no encontrado'
-            })
+            });
         }
 
         req.user = user;
@@ -28,9 +28,9 @@ exports.authenticate = async (res, req, next) => {
         res.status(401).json({
             success: false,
             message: 'token invalido o expirado'
-        })
+        });
     }
-}
+};
 
 //middleware de autorizacion
 exports.authorize = (roles) => {
@@ -41,7 +41,7 @@ exports.authorize = (roles) => {
                 message: 'no tienes permiso para esta accion',
                 requiredRoles: roles,
                 currentRole: req.user.role
-            })
+            });
         }
         next();
     };

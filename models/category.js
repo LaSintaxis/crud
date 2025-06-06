@@ -1,46 +1,48 @@
 const mongoose = require('mongoose');
 
 const categorySchema = new mongoose.Schema({
-  name:{
-    type: String,
-    require: [true, 'El nombre es obligatorio'],
-    unique: true,
-    trim: true
-  },
-  description: {
-    type: String,
-    require: [true, 'La descripcion es obligatoria'],
-    trim: true
-  }
-}, {
-  trimestamps: true,
-  versionKey: false
+    name:{
+        type: String,
+        require:[true,'El nombre es obligatorio'],
+        unique: true,
+        trim:true
+    },
+    description:{
+        type: String,
+        require:[true, 'la descripcion es obligatoria'],
+        trim: true
+    }
+},{
+    timestamps:true,
+    versionKey: false
+
 });
 
-//eliminar el indice problematico si existe 
-categorySchema.pre('save', async function (next) {
-  try {
-    const collection = this.constructor.collection;
-    const indice = await collection.indexes();
+//Eliminar el indice problematico si existe
 
-    //Buscar y eliminar indice problematico con nombre "nombre_1"
-    const problematicIndex = indexes.find(index => index.name === 'nombre_1');
-    if (problematicIndex) {
-      await collection.dropIndex('nombre_1');
-    }
-  } catch(error) {
-    //ignorar si el indice no existe
-    if (!error.message.includes('Index not found')) {
-      return next(err);
-    }
-  }
-  next();
-})
+categorySchema.pre('save', async function(next){
+    try{
+        const collection = this.constructor.collection;
+        const indexes = await collection.indexes();
 
-// Crear nuevo indice correcto
-categorySchema.index({name:1}, {
-  unique: true,
-  name: 'name_1' //Nombre explicito para el indice 
+        //Buscar y eliminar indice problematico con nombre "nombre_1"
+
+        const problematicIndex = indexes.find(index => index.name === 'nombre_1');
+        if(problematicIndex){}
+        await collection.dropIndex('nombre_1');
+    }catch (err){
+        //ignorar si el indice no existe
+        if(!err.message.includes('Index not found')){
+            return next (err);
+        }
+    }
+    next();
 });
 
-module.exports = mongoose.model('category', categorySchema);
+//crear nuevo indice correcto
+categorySchema.index({ name:1},{
+    unique:true,
+    name:'name_1'//nombre explicito para el indice
+});
+
+module.exports = mongoose.model('category',categorySchema);

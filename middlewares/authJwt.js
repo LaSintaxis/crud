@@ -17,7 +17,7 @@ const verifyTokenFn = (req, res, next) => {
             return res.status(403).json({
                 success: false,
                 message: 'Token no proporcionado'
-            })
+            });
         }
 
         const decoded = jwt.verify(token, config.secret);
@@ -32,7 +32,7 @@ const verifyTokenFn = (req, res, next) => {
             message: 'Token invalido',
             error: error.name
         });
-    };
+    }
 };
 
 const AuthJWT = (req, res, next) => {
@@ -40,7 +40,7 @@ const AuthJWT = (req, res, next) => {
     if (!token) {
         return res.status(401).json({
             message: 'token no proporcionado'
-        })
+        });
     }
 
     try {
@@ -50,18 +50,17 @@ const AuthJWT = (req, res, next) => {
     } catch (error) {
         return res.status(401).json({
             message: 'token invalido'
-        })
+        });
     }
+};
+
+if( typeof verifyTokenFn !== 'function'){
+    console.error('[AuthJWT] Error: verifyTokenFn no es una funcion');
+    throw new Error('verifyTokenFn debe ser una funcion');
 }
 
-//Validacion antes de exportar 
-if ( typeof verifyTokenFn !== 'function') {
-    console.error('[AuthJWT] Error: verifyTokenFn no es una funcion')
-    throw new Error('verifyTokenFn debe ser una funcion ')
-}
-
-console.log('[AuthJWT] Middleware verifyTokenFn es una funcion: ',typeof verifyTokenFn);
+console.log('[AuthJWT] Middleware verifyTokenFn es una funcion:',typeof verifyTokenFn);
 
 module.exports = {
     verifyToken: verifyTokenFn
-}
+};

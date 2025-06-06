@@ -1,0 +1,14 @@
+1.realizar las pruebas postman de user con 3 usuarios
+2.realizar las pruebas postman de categoria 3 usuarios (2 categorias)
+3.realizar las pruebas postman de subcategoria 3 usuarios (2 subcategorias por categoria)
+4.realizar las pruebas postman de producto 3 usuarios (2 productos por subcategoria)
+5.debe realizar que se cumplan todos los roles
+5.1 admin crud ok
+5.2 coordinador crear,consultar,modificar (revisar)
+5.3 auxiliar consultar (revisat)
+6. recuerde que las pruebas son:
+6.1 crear
+6.2 consultar
+6.3 consultar por id
+6.4 modificar
+6.5 eliminar
