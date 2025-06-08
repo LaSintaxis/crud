@@ -34,7 +34,7 @@ exports.createSubcategory = async (req, res) =>{
 
 
     }catch(error){
-        console.error('Error al crear la subcategoria:',error);
+        console.error('Error al crear la subcategoria: ',error);
 
         if(error.message.includes('duplicate key') || error.message.includes('ya existe ')){
             return res.status(400).json({

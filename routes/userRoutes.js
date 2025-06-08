@@ -19,14 +19,14 @@ router.use((req, res, next) => {
 // GET /api/users - Listar usuarios (admin y coordinador pueden ver todos, auxiliar solo se ve a sí mismo)
 router.get('/',
     verifyToken,
-    checkRole('admin', 'coordinador', 'auxiliar'),
+    checkRole('admin', 'coordinador'),
     userController.getAllUsers
 );
 
-// POST /api/users - Crear usuario (solo admin)
+// POST /api/users - Crear usuario (admin y coordinador)
 router.post('/',
     verifyToken,
-    checkRole('admin'),
+    checkRole('admin', 'coordinador'),
     userController.createUser
 );
 

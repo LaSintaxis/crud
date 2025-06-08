@@ -5,13 +5,13 @@ const { default: mongoose } = require('mongoose');
 const subcategorySchema = new moongose.Schema({
     name:{
         type: String,
-        require:[true,'El nombre es obligatorio'],
+        required:[true,'El nombre es obligatorio'],
         trim:true,
         unique: true,
     },
     description:{
         type:String,
-        require:[true,'La descripcion es obligatoria'],
+        required:[true,'La descripcion es obligatoria'],
         trim: true,
         
     },

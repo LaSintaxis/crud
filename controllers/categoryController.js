@@ -1,8 +1,8 @@
 const Category = require('../models/category');
 
-exports.createCategory = async (req,res) =>{
+exports.createCategory = async (req, res) =>{
     try{
-        const{name,description} = req.body;
+        const{name, description} = req.body;
 
         //Validacion
         if(!name || typeof name !== 'string'|| !name.trim()){
@@ -36,7 +36,7 @@ exports.createCategory = async (req,res) =>{
 
         await newCategory.save();
 
-        res.status(201)({
+        res.status(201).json({
             success:true,
             message:'categoria creada exitosamente',
             data:newCategory
@@ -58,9 +58,6 @@ exports.createCategory = async (req,res) =>{
         error: error.message
     });
     }
-
-
-    
 };
 
 
@@ -81,7 +78,7 @@ exports.getCategories = async(req, res) =>{
    
 };
 
-exports.getCategoriesById = async (req,res) =>{
+exports.getCategoryById = async (req,res) =>{
     try{
         const category = await Category.findById(req.params.id);
         if(!category){
@@ -103,7 +100,7 @@ exports.getCategoriesById = async (req,res) =>{
     }
 };
 
-exports.updateCategory = async (res, req) =>{
+exports.updateCategory = async (req, res) =>{
     try{
         const{name, description} = req.body;
         const updateData = {};
@@ -126,7 +123,7 @@ exports.updateCategory = async (res, req) =>{
         updateData.description = description.trim();
 
         }
-        const updatedCategory = await Category.findIdUpdate(
+        const updatedCategory = await Category.findByIdAndUpdate(
             req.params.id,
             updateData,
             {new:true, runValidators}
@@ -153,7 +150,7 @@ exports.updateCategory = async (res, req) =>{
     
 };
 
-exports.deleteCategory = async (res,req) =>{
+exports.deleteCategory = async (req, res) =>{
     try{
         const deleteCategory = await Category.findByIdAndDelete(req.params.id);
         if(!deleteCategory){

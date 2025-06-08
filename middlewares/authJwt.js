@@ -9,7 +9,7 @@ const verifyTokenFn = (req, res, next) => {
     console.log('\n[AuthJWT] middleware ejecutandose para: ', req.originalUrl)
 
     try {
-        const token = req.headers['x-access-token'] || req.headers.autorization?.split('')[1];
+        const token = req.headers['x-access-token'] || req.headers.authorization?.split(' ')[1];
         console.log('[AuthJWT] token recibido: ', token ? '***' + token.slice(-8) : 'NO PROVISTO')
 
         if (!token) {

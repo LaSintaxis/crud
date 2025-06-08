@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const subcategoryController = require('../controllers/subcategoryController');
 const { check } = require('express-validator');
+const { verifyToken } = require('../middlewares/authJwt');
+const { checkRole } = require('../middlewares/role');
 
 //validaciones
 const validateSubcategory = [
@@ -11,10 +13,16 @@ const validateSubcategory = [
 ];
 
 //rutas
-router.post('/', validateSubcategory,subcategoryController.createSubcategory);
+
+//POST /api/subcategories solo admin y coordinador pueden crear subcategoria
+router.post('/',
+    verifyToken,
+    checkRole('admin', 'coordinador'),
+    validateSubcategory, subcategoryController.createSubcategory
+);
 router.get('/', subcategoryController.getSubcategories);
 router.get('/:id', subcategoryController.getSubcategoryById);
-router.put('/:id', validateSubcategory,subcategoryController.updateSubcategory);
+router.put('/:id', validateSubcategory, subcategoryController.updateSubcategory);
 router.put('/:id', subcategoryController.deleteSubcategory);
 
 module.exports = router;
