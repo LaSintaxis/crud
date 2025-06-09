@@ -1,4 +1,4 @@
-const Product = require('../models/Products');
+const Product = require('../models/products');
 const Category = require('../models/category');
 const Subcategory = require('../models/Subcategory');
 
@@ -90,7 +90,7 @@ exports.createProduct = async(req,res) =>{
 exports.getProducts = async (req,res) =>{
     try{
         const products = await Product.find()
-        .populate('category','name')
+        .populate('category','name') 
         .populate('subcategory','name')
         .sort({createAt: -1 });
 
@@ -109,7 +109,7 @@ exports.getProducts = async (req,res) =>{
     }
 };
 
-exports.getProductById = async (res,req) =>{
+exports.getProductById = async (req, res) =>{
     try{
         const product = await Product.findById(req.params.id)
         .populate('category','name description')
@@ -176,7 +176,7 @@ exports.updateProduct = async (req,res) =>{
             }
          }
         //actualizar el producto
-        const updatedProduct = await Product.findByAndUpdate(
+        const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
             updateData,{
                 new:true,
