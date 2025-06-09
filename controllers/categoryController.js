@@ -126,7 +126,7 @@ exports.updateCategory = async (req, res) =>{
         const updatedCategory = await Category.findByIdAndUpdate(
             req.params.id,
             updateData,
-            {new:true, runValidators}
+            {new:true, runValidators: true}
         );
         if(!updatedCategory){
             return res.status(404).json({

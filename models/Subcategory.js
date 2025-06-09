@@ -1,5 +1,4 @@
 const moongose = require('mongoose');
-const category = require('./category');
 const { default: mongoose } = require('mongoose');
 
 const subcategorySchema = new moongose.Schema({
@@ -13,7 +12,6 @@ const subcategorySchema = new moongose.Schema({
         type:String,
         required:[true,'La descripcion es obligatoria'],
         trim: true,
-        
     },
     category:{
         type: mongoose.Schema.Types.ObjectId,
@@ -29,7 +27,6 @@ const subcategorySchema = new moongose.Schema({
 subcategorySchema.post('save', function(error, doc,next){
     if(error.name === 'MongoServerError' && error.code === 11000){
         next(new Error('Ya existe una subcategoria con ese nombre'));
-
     } else{
         next(error);
     }

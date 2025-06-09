@@ -1,4 +1,4 @@
-const Product = require('../models/products');
+const Product = require('../models/Products');
 const Category = require('../models/category');
 const Subcategory = require('../models/Subcategory');
 
@@ -96,7 +96,7 @@ exports.getProducts = async (req,res) =>{
 
         res.status(200).json({
             success:true,
-            const: product.lenght,
+            const: products.length,
             data:products
         })
     }catch (error){
@@ -118,12 +118,12 @@ exports.getProductById = async (res,req) =>{
         if(!product){
             return res.status(404).json({
                 success:false,
-                message:'Producto no encontrao'
+                message:'Producto no encontrado'
             });
         }
 
         res.status(200).json({
-            success:false,
+            success:true,
             data: product
         });
     } catch(error){
@@ -196,7 +196,7 @@ exports.updateProduct = async (req,res) =>{
 
         res.status(200).json({
             success:true,
-            message:'Producto actualizado exitosomente',
+            message:'Producto actualizado exitosamente',
             data: updatedProduct
         });
     } catch(error){
@@ -210,7 +210,7 @@ exports.updateProduct = async (req,res) =>{
 
 exports.deleteProduct = async (req,res) =>{
     try{
-        const product = await Product.findByAndDelete(req.params.id);
+        const product = await Product.findByIdAndDelete(req.params.id);
 
         if(!product){
             return res.status(404).json({

@@ -12,22 +12,30 @@ router.post('/',
 );
 
 // GET /api/categories - listar las categorias
-router.get('/', categoryController.getCategories);
+router.get('/',
+    verifyToken,
+    checkRole('admin', 'coordinador', 'auxiliar'),
+    categoryController.getCategories
+);
 
 //GET /api/categories - obtener categoria especifica
-router.get('/:id', categoryController.getCategoryById);
+router.get('/:id',
+    verifyToken,
+    checkRole('admin', 'coordinador', 'auxiliar'),
+    categoryController.getCategoryById
+);
 
-// PUT /api/categories - modificar categoria especifica
+// PUT /api/categories - modificar categoria especifica (admin y coordinador)
 router.put('/:id',
     verifyToken,
     checkRole('admin', 'coordinador'),
     categoryController.updateCategory
 );
 
-// DELETE /api/categories - eliminar categoria especifica
+// DELETE /api/categories - eliminar categoria especifica (solo admin)
 router.delete('/:id',
     verifyToken,
-    checkRole('admin', 'coordinador'),
+    checkRole('admin'),
     categoryController.deleteCategory
 );
 
