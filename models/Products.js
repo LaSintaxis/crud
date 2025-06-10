@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
     price:{
         type: Number,
         required:[true,'el precio es obligatorio'],
-        min:[0,'El precion no puede ser negativo']
+        min:[0,'El precio no puede ser negativo']
     },
     stock:{
         type: Number,
