@@ -1,4 +1,4 @@
-# INSTRUCTOR SIGA LAS INSTRUCCIONES PARA EJECUTAR EL PROGRAMA, IMPORTAR LA BASE DE DATOS Y REALIZAR LAS PETICIONES POSTMAN
+# INSTRUCCIONES PARA EJECUTAR EL PROGRAMA, IMPORTAR LA BASE DE DATOS Y REALIZAR LAS PETICIONES POSTMAN
 
 ## 1. Importar la base de datos (MongoDB)
 * Abrir MongoDB Compass.
@@ -33,5 +33,3 @@ Las variables de autenticación (token) ya están preconfiguradas.
 Debe realizar la peticion de 'signin' de la carpeta 'USER' de cada usuario antes de cualquier otra peticion
 
  SOLO DEBE HACER CLICK EN SEND CON LOS GET, LOS POST Y LOS PUT. EN EL CASO DE LOS DELETE SI DE DEBE DIRIGIR A LA BASE DE DATOS, COPIAR EL ID Y PROPORCIONARLO EN LA URL HTTP.
-
-Gracias por leer
