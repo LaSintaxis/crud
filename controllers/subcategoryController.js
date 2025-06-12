@@ -55,7 +55,7 @@ exports.createSubcategory = async (req, res) =>{
 exports.getSubcategories = async(req,res) => 
     {
     try{
-        const subcategories = await Subcategory.find(). populate('category','name');
+        const subcategories = await Subcategory.find().populate('category','name');
         res.status(200).json({
             success:true,
             data: subcategories

@@ -1,4 +1,4 @@
-const Product = require('../models/products');
+const Product = require('../models/Products');
 const Category = require('../models/category');
 const Subcategory = require('../models/Subcategory');
 
@@ -180,14 +180,13 @@ exports.updateProduct = async (req,res) =>{
             req.params.id,
             updateData,{
                 new:true,
-                runValidatos: true
-
+                runValidators: true
             }
         )
         .populate('category', 'name')
-        .populate('subcatgory','name');
+        .populate('subcategory','name');
         
-        if(!this.updatedProduct){
+        if(!updatedProduct){
             return res.status(404).json({
                 success:false,
                 message:'Producto no encontrado'
